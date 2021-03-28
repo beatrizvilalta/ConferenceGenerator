@@ -3,7 +3,7 @@ Given('I have a {string}') do |exmaple_line|
 end
 
 When('I separate it by title and duration') do
-    @lecture = buildLecture(@line)
+    @lecture = build_lecture(@line)
 end
 
 Then('I should have a lecture with the right {string} and {int}') do |string, int|

@@ -29,7 +29,7 @@ class Lecture
     
 end
 
-def buildLecture(line)
+def build_lecture(line)
 
     if line.include? "lightning"
         line.sub!("lightning", "5min")
@@ -45,16 +45,17 @@ def buildLecture(line)
 
 end
 
-def buildLectureList(file_path)
+def build_lecture_list(file_path)
     lecture_list = Array.new
 
     File.foreach(file_path) do |line| 
 
-        lecture = buildLecture(line)
+        lecture = build_lecture(line)
 
         lecture_list.push(lecture)
     end
 
     return lecture_list
 end
+
 

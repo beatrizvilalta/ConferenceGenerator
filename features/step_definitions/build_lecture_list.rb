@@ -3,7 +3,7 @@ Given('I have a file with lectures') do
 end
   
 When('I read the file') do
-    @result = buildLectureList(@file_path)
+    @result = build_lecture_list(@file_path)
 end
   
 Then('I should have a Lecture List') do
