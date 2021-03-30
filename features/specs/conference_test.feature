@@ -26,25 +26,27 @@ Feature: Conference
     @organize_first_day_morning_track
     Scenario: Organize the first day morning track
         Given I have a list of lectures
-        When I organize first day's morning track
-        Then I should have a 3 hour track
+        When I organize first days morning track
+        Then I should have a 180 min track
 
     @organize_first_day_afternoon_track
     Scenario: Organize the first day afternoon track
-        Given I have a list of lectures
-        When I organize first day's afternoon track
-        Then I should have at least a 3 hour track
-        And a less than 4 hour track
+        Given I organized the first day morning track
+        And have a list of the remaining lectures
+        When I organize first days afternoon track
+        Then the duration of the tracks should be between 180 min and 240 min
 
-    @organize_second_day_morning_track
-    Scenario: Organize the second day morning track
-        Given I have a list of lectures
-        When I organize second day's morning track
-        Then I should have a 3 hour track
+@organize_second_day_morning_track
+# Scenario: Organize the second day morning track
+#     Given I have a list of lectures
+#     When I organize second days morning track
+#     Then I should have a 3 hour track
 
-    @organize_second_day_afternoon_track
-    Scenario: Organize the second day afternoon track
-        Given I have a list of lectures
-        When I organize second day's afternoon track
-        Then I should have at least a 3 hour track
-        And a less than 4 hour track
+@organize_second_day_afternoon_track
+# Scenario: Organize the second day afternoon track
+#     Given I have a list of lectures
+#     When I organize second days afternoon track
+#     Then I should have at least a 3 hour track
+#     And a less than 4 hour track
+
+@integrate_tracks
