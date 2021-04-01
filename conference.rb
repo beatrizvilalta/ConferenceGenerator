@@ -64,79 +64,122 @@ end
     
 class TracksOrganizer
 
-    def initialize
-        @first_day_morning = Array.new
-        @first_day_afternoon = Array.new
-        @remaining_lectures = Array.new
-    end 
+    def initialize()
+        @remaining_lectures_list = Array.new
+    end
 
-    attr_accessor :first_day_morning, :first_day_afternoon, :remaining_lectures
+    attr_reader :remaining_lectures_list
 
     
-    def organize_first_day_morning_track(lecture_list)
+    def organize_first_day_morning_track(lecture_list, first_track_list)
         total_hours = 0
         
         lecture_list.each do |current_lecture|
             total_hours += current_lecture.duration
             if total_hours <= 180
-                @first_day_morning.push(current_lecture)
+                first_track_list.push(current_lecture)
             else
-                @remaining_lectures.push(current_lecture) 
+                @remaining_lectures_list.push(current_lecture) 
             end
         end 
         
-
-        
     end
 
-    def organize_tracks
-        total_hours = 0
-        index_list = Array.new
-                
-        @remaining_lectures.each do |current_lecture|
+    # def organize_second_morning_track(second_day_morning, maximum_duration)
+    #     current_hours = 0
+    #     total_hours = 0
 
+    #     @remaining_lectures_list.each do |current_lecture|
+    #         total_hours += current_lecture.duration
+
+    #         if total_hours <= maximum_duration
+    #             second_day_morning.push(current_lecture)
+    #         end
+    #     end
+
+    #     second_day_morning.each do |current_lecture|
+    #         current_hours += current_lecture.duration
+    #     end
+
+    #     if current_hours != 180 
+    #         @remaining_lectures_list << @remaining_lectures_list.shift
+            
+    #         organize_second_morning_track(second_day_morning, maximum_duration)
+    #     else
+    #         @remaining_lectures_list = @remaining_lectures_list - second_day_morning
+    #     end
+    # end
+
+    def organize_single_track(track_of_the_day_list, maximum_duration)
+        total_hours = 0
+                
+        @remaining_lectures_list.each do |current_lecture|
             total_hours += current_lecture.duration
 
-            if total_hours < 240
-                @first_day_afternoon.push(current_lecture)
+            if total_hours <= maximum_duration
+                track_of_the_day_list.push(current_lecture)
             end
         end
-        @remaining_lectures = @remaining_lectures - @first_day_afternoon
+        @remaining_lectures_list = @remaining_lectures_list - track_of_the_day_list
     end
 
+    def organize_conference_tracks(lecture_list, first_day_morning, first_day_afternoon, 
+        second_day_morning, second_day_afternoon,
+        morning_maximum_duration, afternoon_maximum_duration)
+        
+        organize_first_day_morning_track(lecture_list, first_day_morning)
+        organize_single_track(second_day_morning, morning_maximum_duration)
+        organize_single_track(first_day_afternoon, afternoon_maximum_duration)
+        organize_single_track(second_day_afternoon, afternoon_maximum_duration)
+
+    end
 end
 
-
-track = TracksOrganizer.new
-
-track.organize_first_day_morning_track(build_lecture_list('proposals.txt'))
-puts 'Morning'
-track.first_day_morning.each do |current_lecture|
-    puts "title #{current_lecture.title}, duration #{current_lecture.duration}" 
-end
-track.organize_tracks
-puts 'Afternoon'
-track.first_day_afternoon.each do |current_lecture|
-    puts "title #{current_lecture.title}, duration #{current_lecture.duration}" 
-end
 
 class Conference
 
     def initialize()
+        @first_day_morning = Array.new
+        @first_day_afternoon = Array.new
+        @second_day_morning = Array.new
+        @second_day_afternoon = Array.new
     end
-
-    # def initialize(first_day_morning, first_day_afternoon, second_day_morning, second_day_afternoon)
-    #     @first_day_morning = first_day_morning
-    #     @first_day_afternoon = first_day_afternoon
-    #     @second_day_morning = second_day_morning
-    #     @second_day_afternoon = second_day_afternoon
-    # end
 
     attr_accessor :first_day_morning, :first_day_afternoon, :second_day_morning, :second_day_afternoon
     
 end
 
+conference = Conference.new
+track = TracksOrganizer.new
 
+lecture_list = build_lecture_list('proposals.txt')
+first_day_morning_track = conference.first_day_morning
+first_day_afternoon_track = conference.first_day_afternoon
+second_day_morning_track = conference.second_day_morning
+second_day_afternoon_track = conference.second_day_afternoon
+morning_maximum_duration = 180
+afternoon_maximum_duration = 240
 
- 
+track.organize_conference_tracks(lecture_list, first_day_morning_track, first_day_afternoon_track, 
+    second_day_morning_track, second_day_afternoon_track, 
+    morning_maximum_duration, afternoon_maximum_duration)
 
+puts 'First day Morning'
+conference.first_day_morning.each do |current_lecture|
+    puts "title #{current_lecture.title}, duration #{current_lecture.duration}" 
+end
+puts
+puts 'First day Afternoon'
+conference.first_day_afternoon.each do |current_lecture|
+    puts "title #{current_lecture.title}, duration #{current_lecture.duration}" 
+end
+puts
+puts 'Second day Morning'
+conference.second_day_morning.each do |current_lecture|
+    puts "title #{current_lecture.title}, duration #{current_lecture.duration}" 
+end
+puts
+puts 'Second day Afternoon'
+conference.second_day_afternoon.each do |current_lecture|
+    puts "title #{current_lecture.title}, duration #{current_lecture.duration}" 
+end

@@ -26,27 +26,34 @@ Feature: Conference
     @organize_first_day_morning_track
     Scenario: Organize the first day morning track
         Given I have a list of lectures
-        When I organize first days morning track
+        When I organize the first day morning track
         Then I should have a 180 min track
 
     @organize_first_day_afternoon_track
     Scenario: Organize the first day afternoon track
         Given I organized the first day morning track
+        And organized the second day morning track
         And have a list of the remaining lectures
         When I organize first days afternoon track
-        Then the duration of the tracks should be between 180 min and 240 min
+        Then the duration of the first afternoon track should be between 180 min and 240 min
 
-@organize_second_day_morning_track
-# Scenario: Organize the second day morning track
-#     Given I have a list of lectures
-#     When I organize second days morning track
-#     Then I should have a 3 hour track
+    @organize_second_day_morning_track
+    Scenario: Organize the second day morning track
+        Given I organized the first day morning track
+        When I organize second days morning track
+        Then the second day morning should have a 180 min track
 
-@organize_second_day_afternoon_track
-# Scenario: Organize the second day afternoon track
-#     Given I have a list of lectures
-#     When I organize second days afternoon track
-#     Then I should have at least a 3 hour track
-#     And a less than 4 hour track
+    @organize_second_day_afternoon_track
+    Scenario: Organize the second day afternoon track
+        Given I organized the first day morning track
+        And organized the second day morning track
+        And organized the first day afternoon track
+        When I organize second days afternoon track
+        Then the duration of the second afternoon track should be between 180 min and 240 min
 
-@integrate_tracks
+    @integrate_tracks
+    Scenario: Integrate tracks
+        Given I have a list of lectures
+        When I organize it into tracks
+        Then I should have no remaining lectures
+
