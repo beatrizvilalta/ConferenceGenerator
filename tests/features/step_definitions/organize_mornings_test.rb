@@ -1,10 +1,10 @@
 Given('I have a list of lectures') do
-  @lecture_list = build_lecture_list("proposals.txt")
+  file_path = File.join(File.dirname(__FILE__), '../../../proposals.txt')
+  @lecture_list = build_lecture_list(file_path)
 end
 
 When('I organize the first day morning track') do
-  morning_lecture_list = build_lecture_list("proposals.txt")
-  @track_organizer.organize_first_day_morning_track(morning_lecture_list, @conference.first_day_morning)
+  @track_organizer.organize_first_day_morning_track(@lecture_list, @conference.first_day_morning)
 end
   
 Then('I should have a {int} min track') do |int|
@@ -13,11 +13,11 @@ Then('I should have a {int} min track') do |int|
       hour_result += current_lecture.duration
   end
 
-  expect(hour_result).to eql(int)
+  expect(hour_result).to eq(int)
 end
 
 When('I organize second days morning track') do
-  @track_organizer.organize_single_track(@conference.second_day_morning, 180)
+  @track_organizer.organize_second_morning_track(@conference.second_day_morning)
 end
 
 Then('the second day morning should have a {int} min track') do |int|
@@ -26,7 +26,7 @@ Then('the second day morning should have a {int} min track') do |int|
       hour_result += current_lecture.duration
   end
 
-  expect(hour_result).to eql(int)
+  expect(hour_result).to eq(int)
 end
   
   

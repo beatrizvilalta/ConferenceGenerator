@@ -1,6 +1,6 @@
 Given('I organized the first day morning track') do
-
-    morning_lecture_list = build_lecture_list("proposals.txt")
+    file_path = File.join(File.dirname(__FILE__), '../../../proposals.txt')
+    morning_lecture_list = build_lecture_list(file_path)
     @track_organizer.organize_first_day_morning_track(morning_lecture_list, @conference.first_day_morning)
 end
 

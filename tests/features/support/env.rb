@@ -1,3 +1,6 @@
 require 'cucumber'
 require 'rspec'
-require_relative '../../conference.rb'
+require_relative '../../../service/track_organizer.rb'
+require_relative '../../../model/lecture.rb'
+require_relative '../../../model/conference.rb'
+require_relative '../../../service/build_lecture.rb'

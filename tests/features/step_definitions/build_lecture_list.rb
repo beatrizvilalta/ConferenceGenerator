@@ -1,5 +1,5 @@
 Given('I have a file with lectures') do
-    @file_path = "proposals.txt"
+    @file_path = File.join(File.dirname(__FILE__), '../../../proposals.txt')
 end
   
 When('I read the file') do
@@ -7,13 +7,13 @@ When('I read the file') do
 end
   
 Then('I should have a Lecture List') do
-    expect(@result.count).to eql(19)
+    expect(@result.count).to eq(19)
 end
   
 Given('I have an empty file') do
-    @file_path = "empty_file.txt"
+    @file_path = File.join(File.dirname(__FILE__), '../../../empty_file.txt')
 end
   
 Then('I should have an empty list') do    
-    expect(@result.empty?).to eql(true)
+    expect(@result.empty?).to eq(true)
 end
