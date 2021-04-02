@@ -25,24 +25,14 @@ extend BuildLecture
 # 3 - botar em uma lista com texto e tempos separados
 # 4 - organizar a lista de acordo as sessões
 
-
-conference = Conference.new
-track = TracksOrganizer.new
 file_path = File.join(File.dirname(__FILE__), '../proposals.txt')
 
 lecture_list = build_lecture_list(file_path)
-first_day_morning_track = conference.first_day_morning
-first_day_afternoon_track = conference.first_day_afternoon
-second_day_morning_track = conference.second_day_morning
-second_day_afternoon_track = conference.second_day_afternoon
-morning_maximum_duration = 180
-afternoon_maximum_duration = 240
+track = TracksOrganizer.new(lecture_list)
+conference = track.build_conference
 
-track.organize_conference_tracks(lecture_list, first_day_morning_track, first_day_afternoon_track, 
-    second_day_morning_track, second_day_afternoon_track, 
-    morning_maximum_duration, afternoon_maximum_duration)
 
-puts 'First day Morning'
+puts 'First Morning'
 conference.first_day_morning.each do |current_lecture|
     puts "title #{current_lecture.title}, duration #{current_lecture.duration}" 
 end
@@ -61,3 +51,37 @@ puts 'Second day Afternoon'
 conference.second_day_afternoon.each do |current_lecture|
     puts "title #{current_lecture.title}, duration #{current_lecture.duration}" 
 end
+
+
+
+
+# first_day_morning_track = conference.first_day_morning
+# first_day_afternoon_track = conference.first_day_afternoon
+# second_day_morning_track = conference.second_day_morning
+# second_day_afternoon_track = conference.second_day_afternoon
+# morning_maximum_duration = 180
+# afternoon_maximum_duration = 240
+
+# track.organize_conference_tracks(lecture_list, first_day_morning_track, first_day_afternoon_track, 
+#     second_day_morning_track, second_day_afternoon_track, 
+#     morning_maximum_duration, afternoon_maximum_duration)
+
+# puts 'First day Morning'
+# conference.first_day_morning.each do |current_lecture|
+#     puts "title #{current_lecture.title}, duration #{current_lecture.duration}" 
+# end
+# puts
+# puts 'First day Afternoon'
+# conference.first_day_afternoon.each do |current_lecture|
+#     puts "title #{current_lecture.title}, duration #{current_lecture.duration}" 
+# end
+# puts
+# puts 'Second day Morning'
+# conference.second_day_morning.each do |current_lecture|
+#     puts "title #{current_lecture.title}, duration #{current_lecture.duration}" 
+# end
+# puts
+# puts 'Second day Afternoon'
+# conference.second_day_afternoon.each do |current_lecture|
+#     puts "title #{current_lecture.title}, duration #{current_lecture.duration}" 
+# end
